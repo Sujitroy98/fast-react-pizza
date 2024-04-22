@@ -1,14 +1,14 @@
-import { useSelector, useDispatch } from 'react-redux';
 import LinkButton from '../../ui/LinkButton';
 import Button from '../../ui/Button';
 import CartItem from './CartItem';
 import EmptyCart from './EmptyCart';
-import { getCart, getUsername, clearCart } from './CartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearCart, getCart } from './cartSlice';
 
 function Cart() {
-  const dispatch = useDispatch();
-  const username = useSelector(getUsername);
+  const username = useSelector((state) => state.user.username);
   const cart = useSelector(getCart);
+  const dispatch = useDispatch();
 
   if (!cart.length) return <EmptyCart />;
 
@@ -23,12 +23,14 @@ function Cart() {
           <CartItem item={item} key={item.pizzaId} />
         ))}
       </ul>
-      <div className="mt-6 space-x-3">
-        <Button to="/order/new" type={'primary'}>
+
+      <div className="mt-6 space-x-2">
+        <Button to="/order/new" type="primary">
           Order pizzas
         </Button>
+
         <Button type="secondary" onClick={() => dispatch(clearCart())}>
-          Clear Cart
+          Clear cart
         </Button>
       </div>
     </div>
