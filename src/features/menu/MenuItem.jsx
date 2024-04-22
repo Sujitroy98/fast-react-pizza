@@ -1,17 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../ui/Button';
-import DeleteItem from '../cart/DeleteItem';
-import UpdateItemQuantity from '../cart/UpdateItemQuantity';
 import { formatCurrency } from '../../utils/helpers';
 import { addItem, getCurrentQuantityById } from '../cart/cartSlice';
+import DeleteItem from '../cart/DeleteItem';
+import UpdateItemQuantit from '../cart/UpdateItemQuantity';
 
 function MenuItem({ pizza }) {
   const dispatch = useDispatch();
-
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
-
-  const currentQuantity = useSelector(getCurrentQuantityById(id));
-  const isInCart = currentQuantity > 0;
+  const currentQuantityById = useSelector(getCurrentQuantityById(id));
+  const isInCart = currentQuantityById > 0;
 
   function handleAddToCart() {
     const newItem = {
@@ -47,18 +44,17 @@ function MenuItem({ pizza }) {
 
           {isInCart && (
             <div className="flex items-center gap-3 sm:gap-8">
-              <UpdateItemQuantity
-                pizzaId={id}
-                currentQuantity={currentQuantity}
-              />
+              <UpdateItemQuantit pizzaId={id} />
               <DeleteItem pizzaId={id} />
             </div>
           )}
-
           {!soldOut && !isInCart && (
-            <Button type="small" onClick={handleAddToCart}>
+            <button
+              className="inline-block rounded-full bg-orange-400 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-stone-50 transition-all duration-300 hover:bg-orange-300 focus:bg-orange-300 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-offset-2 disabled:cursor-not-allowed"
+              onClick={handleAddToCart}
+            >
               Add to cart
-            </Button>
+            </button>
           )}
         </div>
       </div>
